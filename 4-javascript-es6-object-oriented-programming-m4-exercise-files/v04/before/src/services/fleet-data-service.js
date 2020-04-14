@@ -9,8 +9,25 @@ export class FleetDataService {
     this.errors = [];
   }
 
+  sortCarsByLicense() {
+    return this.cars.sort(function (car1, car2) {
+      if (car1.license < car2.license) {
+        return -1;
+      }
+      if (car1.license > car2.license) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  getCarByLicense(license) {
+    return this.cars.find(function (car) {
+      return car.license === license;
+    });
+  }
+
   loadData(fleet) {
-    console.log(typeof this);
     for (let data of fleet) {
       switch (data.type) {
         case "car":
@@ -36,11 +53,11 @@ export class FleetDataService {
   }
 
   loadCar(car) {
-    // console.log("here ", car);
     try {
       let c = new Car(Car.license, Car.model, Car.latLong);
       c.miles = car.miles;
       c.make = car.make;
+      c.license = car.license;
       return c;
     } catch (e) {
       this.errors.push(new DataError("error loading car"), car);
@@ -48,19 +65,16 @@ export class FleetDataService {
     return null;
   }
   validateCarData(car) {
-    console.log("here ", car.miles, this);
     let requiredProps = "license model latLong miles make".split(" ");
     let hasErrors = false;
     for (const field of requiredProps) {
-      //   console.log(field);
       if (!car[field]) {
-        console.log(field);
         this.errors.push(new DataError(`invalid field- ${field}`, car));
         hasErrors = true;
       }
 
       let miles = Number.parseFloat(car.miles);
-      console.log(miles);
+
       if (Number.isNaN(miles)) {
         console.log(this);
         this.errors.push(new DataError(`${car.miles} is not a number`, car));
