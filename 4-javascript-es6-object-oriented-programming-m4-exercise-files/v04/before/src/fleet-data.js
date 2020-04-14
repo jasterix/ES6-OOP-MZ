@@ -34,7 +34,7 @@ export let fleet = [
   {
     license: "AT2000",
     type: "car",
-    make: "Uber",
+    make: "Tesla",
     model: "Auto Taxi Plus",
     miles: "5000",
     latLong: "40.778878 -73.968435",

@@ -9,8 +9,14 @@ export class FleetDataService {
     this.errors = [];
   }
 
+  getCarByLicense(license) {
+    return this.cars.find(function (car) {
+      return car.license === license;
+    });
+  }
+
   sortCarsByLicense() {
-    return this.cars.sort(function (car1, car2) {
+    return this.cars.sort(function (car1, ar2) {
       if (car1.license < car2.license) {
         return -1;
       }
@@ -21,10 +27,8 @@ export class FleetDataService {
     });
   }
 
-  getCarByLicense(license) {
-    return this.cars.find(function (car) {
-      return car.license === license;
-    });
+  filterCarsByMake(letter) {
+    return this.cars.filter((car) => car.make.indexOf(letter) >= 0);
   }
 
   loadData(fleet) {
